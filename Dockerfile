@@ -1,23 +1,36 @@
-# Use the official Ruby image with Ruby 3.3.1 as base
+# Use the official Ruby image
 FROM ruby:3.3.1
 
-# Set working directory inside the container
+# Set the working directory
 WORKDIR /app
 
 # Install dependencies
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    libsqlite3-dev \
+    nodejs \
+    npm
 
-# Copy Gemfile and Gemfile.lock to the container
+# Install yarn for managing JavaScript packages
+RUN npm install -g yarn
+
+# Copy the Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock ./
 
-# Install gems
+# Install the required Ruby gems
 RUN bundle install
 
 # Copy the rest of the application code
 COPY . .
 
-# Expose port 3000
+# Precompile assets for production
+# RUN bundle exec rake assets:precompile
+
+# Expose port 3000 to the host
 EXPOSE 3000
+
+# Set the entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
 
 # Start the Rails server
 CMD ["rails", "server", "-b", "0.0.0.0"]
