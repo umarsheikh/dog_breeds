@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'webmock/rspec'
 
 RSpec.describe DogsApiService do
   describe '#fetch_image' do
