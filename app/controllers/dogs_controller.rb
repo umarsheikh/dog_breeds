@@ -5,9 +5,9 @@ class DogsController < ApplicationController
   def create
     response = DogsApiService.new.fetch_image(params[:breed])
     if response.success?
-      @image_url = response['message']
+      @image_url = response.parsed_response['message']
     else
-      @error = response['message']
+      @error = response.parsed_response['message']
     end
     render_iamge
   end
