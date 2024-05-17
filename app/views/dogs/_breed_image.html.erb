@@ -1,6 +1,6 @@
 <%= turbo_frame_tag 'breed_image' do %>
   <div class="max-w-md mx-auto mt-10 w-96 h-96">
-    <h2 class="mb-4 text-gray-700 text-2xl"><%= params[:breed] %></h2>
+    <h2 class="text-2xl"><%= params[:breed].to_s.capitalize %></h2>
     <% if @image_url.present? %>
       <div>
         <%= image_tag @image_url, alt: "breed_image", class: 'rounded max-w-96' %>
@@ -8,7 +8,7 @@
     <% end %>
 
     <% if @error.present? %>
-      <div class="text-red-500">
+      <div class="text-red-500 italic">
         <%= @error %>
       </div>
     <% end %>
